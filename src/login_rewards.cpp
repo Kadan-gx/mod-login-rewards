@@ -7,7 +7,6 @@
 #include "Config.h"
 #include "Chat.h"
 
-
 struct LoginRewardsItems
 {
     int32_t itemId = 0;
@@ -19,7 +18,6 @@ class WorldScript_LoginRewards : public WorldScript
 {
 public:
     WorldScript_LoginRewards() : WorldScript("WorldScript_Bounty"){}
-
 
     void LoadData()
     {
@@ -35,7 +33,6 @@ public:
             return;
         }
 
-
         do
         {
             Field* fields = result->Fetch();
@@ -43,8 +40,6 @@ public:
             auto day = fields[0].Get<uint8_t>();
             auto itemId = fields[1].Get<int32_t>();
             auto count = fields[2].Get<uint8_t>();
-
-
             rewardsData.insert({ day, { itemId,count } });
         } while (result->NextRow());
     }
@@ -84,10 +79,7 @@ public:
         }
         else
         {
-            Field* fields = result->Fetch();
-
-
-            auto lastClaimed = time_t(fields[0].Get<uint32>());
+            Field* fields = result->Fetch();            auto lastClaimed = time_t(fields[0].Get<uint32>());
             rewardId = fields[1].Get<uint8>();
 
             auto currentTime = Acore::Time::TimeBreakdown(std::time(nullptr));
@@ -95,10 +87,7 @@ public:
 
             if (lastClaimedBkd.tm_mday == currentTime.tm_mday
                 && lastClaimedBkd.tm_mon == currentTime.tm_mon
-                && lastClaimedBkd.tm_year == currentTime.tm_year)
-
-
-            {
+                && lastClaimedBkd.tm_year == currentTime.tm_year)            {
                 return;
             }
             else
@@ -111,9 +100,6 @@ public:
                 }
 
                 CharacterDatabase.Execute("INSERT INTO login_rewards VALUES('{}','{}','{}')", player->GetGUID().GetCounter(), (uint32_t)std::time(nullptr), rewardId);
-
-
-
             }
         }
 
@@ -125,9 +111,6 @@ public:
         else
         {
             MailDraft draft(MAIL_NORMAL);
-
-
-
             CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
 
             Item* item = it->second.itemId ? Item::CreateItem(it->second.itemId, it->second.count, player) : nullptr;
