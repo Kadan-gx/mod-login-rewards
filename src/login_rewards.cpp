@@ -65,10 +65,7 @@ class PlayerScript_LoginRewards : public PlayerScript
 {
 public:
 
-    PlayerScript_LoginRewards() : PlayerScript("LoginRewards")
-    {
-        
-    }
+    PlayerScript_LoginRewards() : PlayerScript("LoginRewards"){}
 
     void OnLogin(Player* player) override
     {
@@ -120,8 +117,7 @@ public:
             }
         }
 
-        // no data found 
-        if (auto it = rewardsData.find(rewardId);
+        if (auto it = rewardsData.find(rewardId); // no data found 
             it == rewardsData.end())
         {
             return;
@@ -156,6 +152,4 @@ void AddMyLoginRewards()
 {
     new PlayerScript_LoginRewards();
     new WorldScript_LoginRewards();
-
-    
 }
