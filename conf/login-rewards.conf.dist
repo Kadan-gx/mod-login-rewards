@@ -5,13 +5,15 @@
 [worldserver]
 
 ########################################
-# My module configuration
+# LoginRewards configuration
 ########################################
 #
-#    MyModule.Enable
-#        Description: Enable my module and print "Hello World" message at server start
+#    LoginRewards.Enable
+#        Description: Enable LoginRewards for the players
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
 
-MyModule.Enable = 1
+LoginRewards = 1
+
+MaxRewards = 30

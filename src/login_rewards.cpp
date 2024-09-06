@@ -69,7 +69,7 @@ public:
 
     void OnLogin(Player* player) override
     {
-        if (!sConfigMgr->GetOption<bool>("Login_Rewards", true))
+        if (!sConfigMgr->GetOption<bool>("LoginRewards", true))
         {
             return;
         }
@@ -117,7 +117,7 @@ public:
             }
         }
 
-        if (auto it = rewardsData.find(rewardId); // no data found 
+        if (auto it = rewardsData.find(rewardId); // no data found
             it == rewardsData.end())
         {
             return;
