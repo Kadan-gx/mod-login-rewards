@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS `login_rewards_data` (
   `count` TINYINT NULL,
 PRIMARY KEY (`day`));
 
-INSERT INTO login_rewards_data (id, account_id, reward_id) VALUES 
+TRUNCATE TABLE login_rewards_data;
+INSERT INTO login_rewards_data (day, item, count) VALUES 
 (0, 1191, 1),
 (1, 1191, 1),
 (2, 1191, 1),
