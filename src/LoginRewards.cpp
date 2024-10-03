@@ -68,18 +68,22 @@ public:
         {
             return;
         }
+        const auto playerGUID = player->GetGUID().GetCounter();
         auto maxRewards = sConfigMgr->GetOption<int32>("MaxRewards", 30);
-        QueryResult result = CharacterDatabase.Query("SELECT lastClaimed,reward FROM login_rewards WHERE guid={}", player->GetGUID().GetCounter());
+        QueryResult result = CharacterDatabase.Query("SELECT lastClaimed,reward FROM login_rewards WHERE guid={}", playerGUID);
 
+
+        
         int rewardId = 0;
         if (!result) // new player
         {
-            CharacterDatabase.Execute("INSERT INTO login_rewards VALUES('{}','{}','{}')", player->GetGUID().GetCounter(), (uint32_t)std::time(nullptr), 0);
+            CharacterDatabase.Execute("INSERT INTO login_rewards VALUES('{}','{}','{}')", playerGUID, (uint32_t)std::time(nullptr), 0);
 
         }
         else
         {
-            Field* fields = result->Fetch();            auto lastClaimed = time_t(fields[0].Get<uint32>());
+            Field* fields = result->Fetch();
+            auto lastClaimed = time_t(fields[0].Get<uint32>());
             rewardId = fields[1].Get<uint8>();
 
             auto currentTime = Acore::Time::TimeBreakdown(std::time(nullptr));
@@ -99,7 +103,7 @@ public:
                     rewardId = 0;
                 }
 
-                CharacterDatabase.Execute("INSERT INTO login_rewards VALUES('{}','{}','{}')", player->GetGUID().GetCounter(), (uint32_t)std::time(nullptr), rewardId);
+                CharacterDatabase.Execute("UPDATE login_rewards SET lastClaimed ='{}', reward ='{}' WHERE guid='{}'",(uint32_t)std::time(nullptr), rewardId,playerGUID);
             }
         }
 
